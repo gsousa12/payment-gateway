@@ -1,0 +1,95 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      - POSTGRES_USER=developer
+      - POSTGRES_PASSWORD=developer
+    volumes:
+      - postgres-db-volume:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    networks:
+      - app-network
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "developer@developer.com"
+      PGADMIN_DEFAULT_PASSWORD: "developer"
+    ports:
+      - 16543:80
+    volumes:
+      - ./servers.json:/pgadmin4/servers.json
+    networks:
+      - app-network
+
+  rabbitmq:
+    image: rabbitmq:latest
+    container_name: rabbitmq
+    restart: always
+    ports:
+      - 5672:5672
+      - 15672:15672
+    environment:
+      RABBITMQ_DEFAULT_USER: developer
+      RABBITMQ_DEFAULT_PASS: developer
+    configs:
+      - source: rabbitmq-plugins
+        target: /etc/rabbitmq/enabled_plugins
+    volumes:
+      - rabbitmq-lib:/var/lib/rabbitmq/
+      - rabbitmq-log:/var/log/rabbitmq
+    networks:
+      - app-network
+
+  mongo:
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: developeradmin
+      MONGO_INITDB_ROOT_PASSWORD: developeradmin
+    ports:
+      - 27017:27017
+    volumes:
+      - mongo-db-volume:/data/db
+    networks:
+      - app-network
+
+  mongo-express:
+    image: mongo-express
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_BASICAUTH_USERNAME: developer
+      ME_CONFIG_BASICAUTH_PASSWORD: developer
+      ME_CONFIG_MONGODB_PORT: 27017
+      ME_CONFIG_MONGODB_ADMINUSERNAME: developeradmin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: developeradmin
+      ME_CONFIG_MONGODB_SERVER: mongo
+    depends_on:
+      - mongo
+    networks:
+      - app-network
+
+volumes:
+  postgres-db-volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./data
+  rabbitmq-lib:
+    driver: local
+  rabbitmq-log:
+    driver: local
+  mongo-db-volume:
+    driver: local
+
+configs:
+  rabbitmq-plugins:
+    content: "[rabbitmq_management]."
+
+networks:
+  app-network:
+    driver: bridge
