@@ -25,7 +25,7 @@ export class JwtAuthGuard implements CanActivate {
     const token = this.extractTokenFromCookies(request);
 
     if (!token) {
-      throw new UnauthorizedException('Token not found');
+      throw new UnauthorizedException('Access_Token not found');
     }
 
     try {

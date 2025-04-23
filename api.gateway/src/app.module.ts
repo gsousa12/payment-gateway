@@ -6,6 +6,8 @@ import { AuditLogSchema } from '@common/logs/schemas/audit-log.schema';
 import { AuditLogService } from '@common/logs/services/audit-logs.service';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from '@common/guards/jwt.guard';
+import { PaymentsModule } from '@modules/payments/payments.module';
+import { ApiKeyGuard } from '@common/guards/api-key.guard';
 
 @Module({
   imports: [
@@ -13,6 +15,7 @@ import { JwtAuthGuard } from '@common/guards/jwt.guard';
     MongooseModule.forRoot(process.env.MONGODB_URI!),
     MongooseModule.forFeature([{ name: 'AuditLog', schema: AuditLogSchema }]),
     IdentityModule,
+    PaymentsModule,
   ],
   controllers: [],
   providers: [
@@ -20,6 +23,10 @@ import { JwtAuthGuard } from '@common/guards/jwt.guard';
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: ApiKeyGuard,
     },
   ],
 })

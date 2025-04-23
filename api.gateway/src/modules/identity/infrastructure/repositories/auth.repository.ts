@@ -56,4 +56,10 @@ export class AuthRepository implements IAuthRepository {
   //       data: { isActive: true },
   //     });
   //   }
+
+  findMerchantByApiKey(apiKey: string): Promise<Merchant | null> {
+    return this.prisma.merchant.findUnique({
+      where: { apiKey: apiKey },
+    });
+  }
 }

@@ -10,4 +10,5 @@ export interface IAuthRepository {
     taxId: string,
   ): Promise<{ existRegisteredEmail: boolean; existRegisteredTaxId: boolean }>;
   //   activeUser(email: string): Promise<void>;
+  findMerchantByApiKey(apiKey: string): Promise<Merchant | null>;
 }

@@ -14,6 +14,7 @@ import { CustomerController } from './presentation/controllers/customer.controll
 import { CustomerService } from './core/application/services/customer.service';
 import { CustomerRepository } from './infrastructure/repositories/customer.repository';
 import { CustomerHelper } from './core/application/helpers/customer.helper';
+import { ApiKeyStrategy } from './core/application/strategies/api-key.strategy';
 
 @Module({
   imports: [
@@ -43,7 +44,8 @@ import { CustomerHelper } from './core/application/helpers/customer.helper';
     EmailService,
     PrismaService,
     JwtStrategy,
+    ApiKeyStrategy,
   ],
-  exports: [JwtModule, PassportModule, JwtStrategy],
+  exports: [JwtModule, PassportModule, JwtStrategy, ApiKeyStrategy],
 })
 export class IdentityModule {}

@@ -7,4 +7,5 @@ export interface IAuthService {
   signup(merchantRequest: MerchantEntity): Promise<Merchant>;
   login(request: LoginRequestDto, res: Response): Promise<void>;
   validateMerchant(email: string, password: string): Promise<Merchant>;
+  validateApiKey(apiKey: string): Promise<Merchant | null>;
 }

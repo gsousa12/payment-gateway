@@ -77,4 +77,9 @@ export class AuthService implements IAuthService {
   async logout(res: Response): Promise<void> {
     await this.authHelper.clearCookies(res);
   }
+
+  // Fazer validação da api key hasheada futuramente
+  async validateApiKey(apiKey: string): Promise<Merchant | null> {
+    return await this.authRepository.findMerchantByApiKey(apiKey);
+  }
 }
