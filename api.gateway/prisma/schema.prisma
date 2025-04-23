@@ -7,6 +7,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+
 model Merchant {
   id         Int        @id @default(autoincrement())
   name       String 
@@ -21,10 +22,12 @@ model Merchant {
   isActive   Boolean    @map("is_active")
 
   customers Customer[]
+  payments  Payment[]
+  products  Product[]
 }
 
 model Customer {
-  id         String     @unique
+  id         String     @id
   name       String
   email      String     @unique
   phone      String? 
@@ -34,4 +37,32 @@ model Customer {
   createdAt  DateTime   @map("created_at")
   updatedAt  DateTime?  @map("updated_at")
   deletedAt  DateTime?  @map("deleted_at")
+
+  payments   Payment[]
 }
+
+model Payment {
+  id             String        @id
+  amount         Float
+  status         String
+  paymentMethod  String        @map("payment_method")
+  customerId     String        @map("customer_id")
+  customer       Customer      @relation(fields: [customerId], references: [id])
+  merchantId     Int           @map("merchant_id")
+  merchant       Merchant      @relation(fields: [merchantId], references: [id])
+  returnUrl      String        @map("return_url")
+  sucessUrl      String        @map("success_url")
+  pspResponse    Json?         @map("psp_response")
+  createdAt      DateTime      @map("created_at")
+  updatedAt      DateTime?     @map("updated_at")
+}
+
+model Product {
+  id          String   @id
+  name        String
+  description String?
+  createdAt   DateTime @default(now()) @map("created_at")
+  merchanId   Int      @map("merchant_id")
+  merchant    Merchant @relation(fields: [merchanId], references: [id])
+}
+

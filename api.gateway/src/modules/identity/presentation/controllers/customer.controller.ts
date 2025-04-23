@@ -16,9 +16,8 @@ export class CustomerController {
   @Post('/create')
   @HttpCode(HttpStatus.OK)
   async createCustomer(@Body() request: CreateCustomerRequestDto, @Request() req) {
+    const merchantId = Number(req.user.sub || req.user.id);
     try {
-      const merchantId = Number(req.user.sub || req.user.id);
-
       const customerRequest = await CustomerMapper.toMapperCreateCustomerRequest(request);
       const customer = await this.customerService.createCustomer(customerRequest, +merchantId);
       const response = await CustomerMapper.toMapperCreateCustomerResponse(customer);
