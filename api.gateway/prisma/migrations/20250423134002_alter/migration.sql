@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "Merchant" ALTER COLUMN "balance" DROP DEFAULT,
+ALTER COLUMN "created_at" DROP DEFAULT,
+ALTER COLUMN "updated_at" DROP NOT NULL,
+ALTER COLUMN "deleted_at" DROP NOT NULL;
