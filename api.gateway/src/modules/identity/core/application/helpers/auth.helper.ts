@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { BcryptAdapter } from '@common/adapters/bcrypt.adapter';
 import { Response } from 'express';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class AuthHelper {
@@ -17,6 +18,10 @@ export class AuthHelper {
     }
 
     return password;
+  }
+
+  async generateApiKey(): Promise<string> {
+    return uuidv4();
   }
 
   async hashPassword(password: string): Promise<string> {

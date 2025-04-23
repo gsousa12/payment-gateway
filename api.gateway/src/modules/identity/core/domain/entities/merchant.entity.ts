@@ -3,4 +3,5 @@ export class MerchantEntity {
   email: string;
   taxId: string;
   password: string;
+  apiKey: string;
 }

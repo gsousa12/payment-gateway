@@ -1,4 +1,6 @@
 import { Audit } from '@common/logs/decorators/audit-log.decorator';
+import { CreateApiResponse } from '@common/utils/api-response';
+import { MainErrorResponse } from '@common/utils/main-error-response';
 import { CreateMerchantRequestDto } from '@modules/identity/core/application/dtos/request/singup.request.dto';
 import { AuthService } from '@modules/identity/core/application/services/auth.service';
 import { AuthMapper } from '@modules/identity/core/domain/mappers/auth.mapper';
@@ -12,9 +14,13 @@ export class AuthController {
   @Post('/signup')
   @HttpCode(HttpStatus.OK)
   async signup(@Body() request: CreateMerchantRequestDto) {
-    const merchantRequest = await AuthMapper.toMapperSingupRequest(request);
-    const merchant = await this.authService.signup(merchantRequest);
-    const response = AuthMapper.toMapperSingupResponse(merchant);
-    return response;
+    try {
+      const merchantRequest = await AuthMapper.toMapperSingupRequest(request);
+      const merchant = await this.authService.signup(merchantRequest);
+      const response = AuthMapper.toMapperSingupResponse(merchant);
+      return CreateApiResponse('User created successfully', response);
+    } catch (error) {
+      return MainErrorResponse(error);
+    }
   }
 }

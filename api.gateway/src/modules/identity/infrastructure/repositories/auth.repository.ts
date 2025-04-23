@@ -15,6 +15,7 @@ export class AuthRepository implements IAuthRepository {
         email: merchantRequest.email,
         taxId: merchantRequest.taxId,
         password: merchantRequest.password,
+        apiKey: merchantRequest.apiKey,
         createdAt: new Date(),
         balance: 0,
         isActive: false,

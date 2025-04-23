@@ -20,23 +20,26 @@ export class AuthService implements IAuthService {
       merchantRequest.taxId,
     );
     if (existRegisteredEmail) {
-      throw new BadRequestException('There is already a registered merchant with that email');
+      throw new BadRequestException('There is already a registered user with that email');
     }
     if (existRegisteredTaxId) {
-      throw new BadRequestException('There is already a registered merchant with that taxId');
+      throw new BadRequestException('There is already a registered user with that taxId');
     }
 
-    merchantRequest.password = await this.authHelper.generateUserTemporaryPassword();
+    // merchantRequest.password = await this.authHelper.generateUserTemporaryPassword();
+    merchantRequest.password = '123456';
     const plainPassword = merchantRequest.password;
     merchantRequest.password = await this.authHelper.hashPassword(merchantRequest.password);
 
+    merchantRequest.apiKey = await this.authHelper.generateApiKey();
+
     const createdMerchant = await this.authRepository.create(merchantRequest);
 
-    await this.emailService.sendUserTemporaryPasswordEmail(
-      plainPassword,
-      merchantRequest.email,
-      merchantRequest.name,
-    );
+    // await this.emailService.sendUserTemporaryPasswordEmail(
+    //   plainPassword,
+    //   merchantRequest.email,
+    //   merchantRequest.name,
+    // );
 
     return createdMerchant;
   }
