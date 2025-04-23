@@ -1,25 +1,12 @@
+import { PrismaService } from '@common/services/prisma/prisma.service';
 import { MerchantEntity } from '@modules/identity/core/domain/entities/merchant.entity';
 import { IAuthRepository } from '@modules/identity/core/domain/interfaces/auth-repository.interface';
-import { PrismaService } from '@modules/prisma/application/services/prisma.service';
 import { Injectable } from '@nestjs/common';
 import { Merchant } from '@prisma/client';
 
 @Injectable()
 export class AuthRepository implements IAuthRepository {
   constructor(private readonly prisma: PrismaService) {}
-
-  //   async create(user: UserEntity): Promise<UserEntity> {
-  //     const createdUser = await this.prisma.user.create({
-  //       data: {
-  //         name: user.name,
-  //         email: user.email,
-  //         password: user.password,
-  //         isActive: false,
-  //         createdAt: new Date(),
-  //       },
-  //     });
-  //     return createdUser;
-  //   }
 
   async create(merchantRequest: MerchantEntity): Promise<Merchant> {
     return await this.prisma.merchant.create({

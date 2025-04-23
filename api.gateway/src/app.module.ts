@@ -5,16 +5,21 @@ import { RequestLogService } from '@common/logs/services/request-logs.service';
 import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { AuditLogSchema } from '@common/logs/schemas/audit-log.schema';
+import { AuditLogService } from '@common/logs/services/audit-logs.service';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
     MongooseModule.forRoot(process.env.MONGODB_URI!),
-    MongooseModule.forFeature([{ name: 'RequestLog', schema: RequestLogSchema }]),
+    MongooseModule.forFeature([
+      { name: 'RequestLog', schema: RequestLogSchema },
+      { name: 'AuditLog', schema: AuditLogSchema },
+    ]),
     IdentityModule,
   ],
   controllers: [],
-  providers: [RequestLogService],
+  providers: [RequestLogService, AuditLogService],
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {

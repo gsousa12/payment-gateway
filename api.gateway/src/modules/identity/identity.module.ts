@@ -3,13 +3,13 @@ import { AuthController } from './presentation/controllers/auth.controller';
 import { AuthService } from './core/application/services/auth.service';
 import { AuthRepository } from './infrastructure/repositories/auth.repository';
 import { AUTH_REPOSITORY } from '@common/tokens/repositories.tokens';
-import { PrismaModule } from '@modules/prisma/prisma.module';
 import { BcryptAdapter } from '@common/adapters/bcrypt.adapter';
 import { AuthHelper } from './core/application/helpers/auth.helper';
-import { EmailModule } from '@modules/email/email.module';
+import { EmailService } from '@common/services/email/email.service';
+import { PrismaService } from '@common/services/prisma/prisma.service';
 
 @Module({
-  imports: [PrismaModule, EmailModule],
+  imports: [],
   controllers: [AuthController],
   providers: [
     {
@@ -19,6 +19,8 @@ import { EmailModule } from '@modules/email/email.module';
     AuthService,
     BcryptAdapter,
     AuthHelper,
+    EmailService,
+    PrismaService,
   ],
 })
 export class IdentityModule {}

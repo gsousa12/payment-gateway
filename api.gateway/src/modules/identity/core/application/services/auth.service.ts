@@ -5,7 +5,7 @@ import { MerchantEntity } from '../../domain/entities/merchant.entity';
 import { AuthRepository } from '@modules/identity/infrastructure/repositories/auth.repository';
 import { AUTH_REPOSITORY } from '@common/tokens/repositories.tokens';
 import { AuthHelper } from '../helpers/auth.helper';
-import { EmailService } from '@modules/email/application/email.service';
+import { EmailService } from '@common/services/email/email.service';
 
 @Injectable()
 export class AuthService implements IAuthService {
