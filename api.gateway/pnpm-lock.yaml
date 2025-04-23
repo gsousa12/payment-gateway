@@ -17,9 +17,15 @@ importers:
       '@nestjs/core':
         specifier: ^11.0.1
         version: 11.0.21(@nestjs/common@11.0.21(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/platform-express@11.0.21)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs/jwt':
+        specifier: ^11.0.0
+        version: 11.0.0(@nestjs/common@11.0.21(reflect-metadata@0.2.2)(rxjs@7.8.2))
       '@nestjs/mongoose':
         specifier: ^11.0.3
         version: 11.0.3(@nestjs/common@11.0.21(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.0.21)(mongoose@8.13.2)(rxjs@7.8.2)
+      '@nestjs/passport':
+        specifier: ^11.0.5
+        version: 11.0.5(@nestjs/common@11.0.21(reflect-metadata@0.2.2)(rxjs@7.8.2))(passport@0.7.0)
       '@nestjs/platform-express':
         specifier: ^11.0.1
         version: 11.0.21(@nestjs/common@11.0.21(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.0.21)
@@ -955,6 +961,11 @@ packages:
       '@nestjs/websockets':
         optional: true
 
+  '@nestjs/jwt@11.0.0':
+    resolution: {integrity: sha512-v7YRsW3Xi8HNTsO+jeHSEEqelX37TVWgwt+BcxtkG/OfXJEOs6GZdbdza200d6KqId1pJQZ6UPj1F0M6E+mxaA==}
+    peerDependencies:
+      '@nestjs/common': ^8.0.0 || ^9.0.0 || ^10.0.0 || ^11.0.0
+
   '@nestjs/mongoose@11.0.3':
     resolution: {integrity: sha512-tg7bbKD4MnNMPaiDLXK/JUyTNQxIn3rNnI+oYU1HorLpNiR2E8vPraWVvfptpIj+zferpT6LkrHMvtqvuIKNPw==}
     peerDependencies:
@@ -962,6 +973,12 @@ packages:
       '@nestjs/core': ^10.0.0 || ^11.0.0
       mongoose: ^7.0.0 || ^8.0.0
       rxjs: ^7.0.0
+
+  '@nestjs/passport@11.0.5':
+    resolution: {integrity: sha512-ulQX6mbjlws92PIM15Naes4F4p2JoxGnIJuUsdXQPT+Oo2sqQmENEZXM7eYuimocfHnKlcfZOuyzbA33LwUlOQ==}
+    peerDependencies:
+      '@nestjs/common': ^10.0.0 || ^11.0.0
+      passport: ^0.5.0 || ^0.6.0 || ^0.7.0
 
   '@nestjs/platform-express@11.0.21':
     resolution: {integrity: sha512-gOuf052vFoWykIHBccet7vlaU1rfK8OU9nUqhfdkstpeySYcxmb8cXEvgj11liTHNwiL/6jkRjNFeienlW1ZDA==}
@@ -1237,6 +1254,9 @@ packages:
 
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
+
+  '@types/jsonwebtoken@9.0.7':
+    resolution: {integrity: sha512-ugo316mmTYBl2g81zDFnZ7cfxlut3o+/EQdaP7J8QN2kY6lJ22hmQYCK5EHcJHbrW+dkCGSCPgbG8JtYj6qSrg==}
 
   '@types/jsonwebtoken@9.0.9':
     resolution: {integrity: sha512-uoe+GxEuHbvy12OUQct2X9JenKM3qAscquYymuQN4fMWG9DBQtykrQEFcAbVACF7qaLw9BePSodUL0kquqBJpQ==}
@@ -4793,12 +4813,23 @@ snapshots:
     optionalDependencies:
       '@nestjs/platform-express': 11.0.21(@nestjs/common@11.0.21(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.0.21)
 
+  '@nestjs/jwt@11.0.0(@nestjs/common@11.0.21(reflect-metadata@0.2.2)(rxjs@7.8.2))':
+    dependencies:
+      '@nestjs/common': 11.0.21(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@types/jsonwebtoken': 9.0.7
+      jsonwebtoken: 9.0.2
+
   '@nestjs/mongoose@11.0.3(@nestjs/common@11.0.21(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.0.21)(mongoose@8.13.2)(rxjs@7.8.2)':
     dependencies:
       '@nestjs/common': 11.0.21(reflect-metadata@0.2.2)(rxjs@7.8.2)
       '@nestjs/core': 11.0.21(@nestjs/common@11.0.21(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/platform-express@11.0.21)(reflect-metadata@0.2.2)(rxjs@7.8.2)
       mongoose: 8.13.2
       rxjs: 7.8.2
+
+  '@nestjs/passport@11.0.5(@nestjs/common@11.0.21(reflect-metadata@0.2.2)(rxjs@7.8.2))(passport@0.7.0)':
+    dependencies:
+      '@nestjs/common': 11.0.21(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      passport: 0.7.0
 
   '@nestjs/platform-express@11.0.21(@nestjs/common@11.0.21(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.0.21)':
     dependencies:
@@ -5080,6 +5111,10 @@ snapshots:
       pretty-format: 29.7.0
 
   '@types/json-schema@7.0.15': {}
+
+  '@types/jsonwebtoken@9.0.7':
+    dependencies:
+      '@types/node': 22.14.1
 
   '@types/jsonwebtoken@9.0.9':
     dependencies:

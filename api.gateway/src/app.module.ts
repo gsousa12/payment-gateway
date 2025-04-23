@@ -4,6 +4,8 @@ import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuditLogSchema } from '@common/logs/schemas/audit-log.schema';
 import { AuditLogService } from '@common/logs/services/audit-logs.service';
+import { APP_GUARD } from '@nestjs/core';
+import { JwtAuthGuard } from '@common/guards/jwt.guard';
 
 @Module({
   imports: [
@@ -13,6 +15,12 @@ import { AuditLogService } from '@common/logs/services/audit-logs.service';
     IdentityModule,
   ],
   controllers: [],
-  providers: [AuditLogService],
+  providers: [
+    AuditLogService,
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
+  ],
 })
 export class AppModule {}

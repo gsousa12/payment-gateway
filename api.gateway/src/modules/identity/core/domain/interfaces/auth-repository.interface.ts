@@ -4,7 +4,7 @@ import { MerchantEntity } from '../entities/merchant.entity';
 export interface IAuthRepository {
   create(merchant: MerchantEntity): Promise<Merchant>;
 
-  // findUserByEmail(email: string): Promise<MerchantEntity | null>;
+  findMerchantByEmail(email: string): Promise<Merchant | null>;
   verifyExistMerchant(
     email: string,
     taxId: string,

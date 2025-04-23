@@ -19,4 +19,19 @@ model Merchant {
   updatedAt  DateTime?  @map("updated_at")
   deletedAt  DateTime?  @map("deleted_at")
   isActive   Boolean    @map("is_active")
+
+  customers Customer[]
+}
+
+model Customer {
+  id         String     @unique
+  name       String
+  email      String     @unique
+  phone      String? 
+  taxId      String     @unique @map("tax_id")
+  merchantId Int        @map("merchant_id")
+  merchant   Merchant   @relation(fields: [merchantId], references: [id])
+  createdAt  DateTime   @map("created_at")
+  updatedAt  DateTime?  @map("updated_at")
+  deletedAt  DateTime?  @map("deleted_at")
 }

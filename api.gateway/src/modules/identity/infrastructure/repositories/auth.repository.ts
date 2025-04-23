@@ -43,12 +43,12 @@ export class AuthRepository implements IAuthRepository {
     };
   }
 
-  //   findUserByEmail(email: string): Promise<UserEntity | null> {
-  //     const user = this.prisma.user.findUnique({
-  //       where: { email: email },
-  //     });
-  //     return user;
-  //   }
+  async findMerchantByEmail(email: string): Promise<Merchant | null> {
+    const merchant = this.prisma.merchant.findUnique({
+      where: { email: email },
+    });
+    return merchant;
+  }
 
   //   async activeUser(email: string): Promise<void> {
   //     await this.prisma.user.update({

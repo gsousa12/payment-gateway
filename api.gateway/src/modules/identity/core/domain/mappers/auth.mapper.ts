@@ -1,10 +1,10 @@
 import { Merchant } from '@prisma/client';
-import { CreateMerchantRequestDto } from '../../application/dtos/request/singup.request.dto';
+import { SignupRequestDto } from '../../application/dtos/request/singup.request.dto';
 import { MerchantEntity } from '../entities/merchant.entity';
 import { SingupResponseDto } from '../../application/dtos/response/singup.response.dto';
 
 export class AuthMapper {
-  static async toMapperSingupRequest(request: CreateMerchantRequestDto): Promise<MerchantEntity> {
+  static async toMapperSingupRequest(request: SignupRequestDto): Promise<MerchantEntity> {
     const merchant = new MerchantEntity();
     merchant.name = request.name;
     merchant.email = request.email;
