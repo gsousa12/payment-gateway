@@ -19,12 +19,13 @@ export class PaymentRepository implements IPaymentRepository {
       data: {
         id: paymentRequest.id,
         amount: amount,
-        status: PaymentStatus.PENDING,
+        status: PaymentStatus.ANALIZING,
         paymentMethod: paymentRequest.paymentMethod,
         customerId: customerId,
         merchantId: merchantId,
         returnUrl: paymentRequest.returnUrl,
         sucessUrl: paymentRequest.sucessUrl,
+        paymentUrl: paymentRequest.paymentUrl,
         createdAt: new Date(),
       },
     });

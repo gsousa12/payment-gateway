@@ -19,6 +19,7 @@ export class PaymentsController {
       const payment = await this.paymentService.createPayment(paymentRequest, +merchantId);
       return payment;
     } catch (error) {
+      console.log(error);
       return MainErrorResponse(error);
     }
   }

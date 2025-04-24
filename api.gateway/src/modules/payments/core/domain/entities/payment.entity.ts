@@ -7,4 +7,5 @@ export class PaymentEntity {
   paymentMethod: string;
   returnUrl: string;
   sucessUrl: string;
+  paymentUrl: string;
 }
