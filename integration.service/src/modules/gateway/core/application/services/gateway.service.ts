@@ -2,6 +2,7 @@ import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { firstValueFrom } from 'rxjs';
 import { ConfigService } from '@nestjs/config';
+import axios from 'axios';
 
 @Injectable()
 export class GatewayService {
@@ -12,29 +13,30 @@ export class GatewayService {
 
   async notifyPaymentResult(paymentId: string, pspResponse: any) {
     const gatewayBaseUrl = this.configService.get<string>('GATEWAY_BASE_URL');
-    const url = `${gatewayBaseUrl}/payments/${paymentId}/psp-response`;
-    const payload = { pspResponse };
-
-    try {
-      const res = await firstValueFrom(this.http.post(url, payload));
-      console.log('[GatewayService] Gateway notified successfully:', res.data);
-    } catch (err) {
-      console.error('[GatewayService] Failed to notify Gateway:', err.message);
+    if (!gatewayBaseUrl) {
+      throw new Error('GATEWAY_BASE_URL is not defined in the configuration');
     }
   }
 
-  async pspIntegration(paymentPayload: any) {
+  async pspIntegration(paymentPayload: any): Promise<any> {
     const pspBaseUrl = this.configService.get<string>('PSP_BASE_URL');
     if (!pspBaseUrl) {
       throw new Error('PSP_BASE_URL is not defined in the configuration');
     }
-    const url = `${pspBaseUrl}/psp/analyze`;
-    const payload = paymentPayload;
+
+    const url = `${pspBaseUrl}/psp/simulate`;
 
     try {
-      console.log(payload);
+      const response = await axios.post(url, paymentPayload);
+      return {
+        pspResponse: response.data,
+      };
     } catch (error) {
-      console.log(error);
+      return {
+        success: false,
+        error: error.message,
+        pspResponse: null,
+      };
     }
   }
 }

@@ -10,6 +10,7 @@ export class PaymentListener {
   @EventPattern('payment_created')
   async handlePaymentCreated(@Payload() payload: any) {
     // Envio ao PSP
-    await this.gatewayService.pspIntegration(payload);
+    const integrationResult = await this.gatewayService.pspIntegration(payload);
+    await this.gatewayService.notifyPaymentResult(payload.id, integrationResult.pspResponse);
   }
 }

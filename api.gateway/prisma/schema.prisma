@@ -16,6 +16,7 @@ model Merchant {
   password   String
   apiKey     String     @unique @map("api_key")
   balance    Float     
+  webHookUrl String?    @map("web_hook_url")
   createdAt  DateTime   @map("created_at")
   updatedAt  DateTime?  @map("updated_at")
   deletedAt  DateTime?  @map("deleted_at")

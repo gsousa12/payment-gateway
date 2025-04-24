@@ -15,6 +15,5 @@ async function bootstrap() {
   });
 
   await app.listen();
-  console.log('Integration service is listening to RabbitMQ...');
 }
 bootstrap();
