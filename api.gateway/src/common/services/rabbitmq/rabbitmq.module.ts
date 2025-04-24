@@ -1,19 +1,33 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
-    ClientsModule.register([
+    ClientsModule.registerAsync([
       {
         name: 'RABBITMQ_SERVICE',
-        transport: Transport.RMQ,
-        options: {
-          urls: ['amqp://developer:developer@localhost:5672'],
-          queue: 'payment_queue',
-          queueOptions: {
-            durable: true,
-          },
+        imports: [ConfigModule],
+        useFactory: (configService: ConfigService) => {
+          const rabbitUrl = configService.get<string>('RABBITMQ_URL');
+          const rabbitQueue = configService.get<string>('RABBITMQ_QUEUE');
+
+          if (!rabbitUrl || !rabbitQueue) {
+            throw new Error('RABBITMQ_URL and RABBITMQ_QUEUE must be defined in .env');
+          }
+
+          return {
+            transport: Transport.RMQ,
+            options: {
+              urls: [rabbitUrl],
+              queue: rabbitQueue,
+              queueOptions: {
+                durable: true,
+              },
+            },
+          };
         },
+        inject: [ConfigService],
       },
     ]),
   ],

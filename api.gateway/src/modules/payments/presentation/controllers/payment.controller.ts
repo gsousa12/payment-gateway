@@ -1,4 +1,5 @@
 import { Audit } from '@common/logs/decorators/audit-log.decorator';
+import { CreateApiResponse } from '@common/utils/api-response';
 import { MainErrorResponse } from '@common/utils/main-error-response';
 import { CreatePaymentRequestDto } from '@modules/payments/core/application/dtos/request/create-payment.request.dto';
 import { PaymentService } from '@modules/payments/core/application/services/payment.service';
@@ -15,11 +16,11 @@ export class PaymentsController {
   async createPayment(@Body() request: CreatePaymentRequestDto, @Request() req) {
     const merchantId = Number(req.user.sub || req.user.id);
     try {
-      const paymentRequest = await PaymentMapper.toMapperCreatePaymentReques(request);
-      const payment = await this.paymentService.createPayment(paymentRequest, +merchantId);
-      return payment;
+      const paymentRequest = await PaymentMapper.toMapperCreatePaymentRequest(request);
+      const payment = await this.paymentService.createPayment(paymentRequest, merchantId);
+      const response = await PaymentMapper.toMapperCreatePaymentResponse(payment);
+      return CreateApiResponse('Payment created successfully', response);
     } catch (error) {
-      console.log(error);
       return MainErrorResponse(error);
     }
   }

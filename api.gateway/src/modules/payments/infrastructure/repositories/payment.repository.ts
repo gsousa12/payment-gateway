@@ -24,7 +24,7 @@ export class PaymentRepository implements IPaymentRepository {
         customerId: customerId,
         merchantId: merchantId,
         returnUrl: paymentRequest.returnUrl,
-        sucessUrl: paymentRequest.sucessUrl,
+        successUrl: paymentRequest.sucessUrl,
         paymentUrl: paymentRequest.paymentUrl,
         createdAt: new Date(),
       },

@@ -6,7 +6,6 @@ import { PaymentEntity } from '../../domain/entities/payment.entity';
 import { Payment } from '@prisma/client';
 import { PaymentHelper } from '../helpers/payment.helper';
 import { ConfigService } from '@nestjs/config';
-import { RabbitMQPublisher } from '@common/services/rabbitmq/publisher/rabbitmq.publisher';
 import { PublisherService } from '@common/services/rabbitmq/publisher/publisher.service';
 
 @Injectable()
@@ -23,10 +22,14 @@ export class PaymentService implements IPaymentService {
     if (!customerId) {
       throw new BadRequestException('There is no customer with this email');
     }
+
     paymentRequest.id = this.paymentHelper.generatePaymentId();
-    const paymentBaseUrl = this.configService.get<string>('PAYMENT_BASE_URL');
-    paymentRequest.paymentUrl = `${paymentBaseUrl}${paymentRequest.id}`;
+
+    const gatewayBaseUrl = this.configService.get<string>('GATEWAY_BASE_URL');
+    paymentRequest.paymentUrl = `${gatewayBaseUrl}/${paymentRequest.id}`;
+
     const amount = this.paymentHelper.getAmount(paymentRequest.products);
+
     const payment = await this.paymentRepository.createPayment(
       paymentRequest,
       customerId,

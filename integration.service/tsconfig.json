@@ -19,9 +19,7 @@
     "noFallthroughCasesInSwitch": false,
     "paths": {
       "@common/*": ["src/common/*"],
-      "@modules/*": ["src/modules/*"],
-      "@identity/*": ["src/modules/identity/*"],
-      "@payments/*": ["src/modules/payments/*"]
+      "@modules/*": ["src/modules/*"]
     }
   }
 }
